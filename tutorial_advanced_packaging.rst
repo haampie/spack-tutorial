@@ -95,7 +95,7 @@ that spack does is not sufficient for python to import modules.
 To provide environment setup for a dependent, a package can implement the
 :py:func:`setup_dependent_build_environment
 <spack.package.PackageBase.setup_dependent_build_environment>`
-and or :py:func:`setup_dependent_run_environment
+or :py:func:`setup_dependent_run_environment
 <spack.package.PackageBase.setup_dependent_run_environment>` functions.
 These functions take as a parameter a :py:class:`EnvironmentModifications
 <spack.util.environment.EnvironmentModifications>` object, which includes
@@ -302,7 +302,7 @@ If you followed the instructions in the package, when you are finished your
         ]
 
 As you can see, getting the list of libraries that your dependencies provide
-is as easy as accessing the their ``libs`` attribute. Furthermore, the interface
+is as easy as accessing their ``libs`` attribute. Furthermore, the interface
 remains the same whether you are querying regular or virtual dependencies.
 
 At this point you can complete the installation of ``armadillo`` using ``openblas``

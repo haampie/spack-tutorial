@@ -26,18 +26,18 @@ A partial list of some key configuration sections is provided below.
    * - config
      - General settings (install location, number of build jobs, etc)
    * - concretizer
-     - Specializaiton of the concretizer behavior (reuse, unification, etc)
+     - Specialization of the concretizer behavior (reuse, unification, etc)
    * - compilers
      - Define the compilers that Spack can use (required and system specific)
    * - mirrors
-     - Locations where spack can look for stashed source or binary distributions 
+     - Locations where Spack can look for stashed source or binary distributions 
    * - packages
      - Specific settings and rules for packages
    * - modules
      - Naming, location and additional configuration of Spack generated modules
 
 The full list of sections can be viewed with ``spack config list``.
-For further education we encourage you to explore the spack
+For further education, we encourage you to explore the Spack
 `documentation on configuration files <https://spack.readthedocs.io/en/latest/configuration.html#configuration-files>`_.
 
 The principle goals of this section of the tutorial are:
@@ -95,13 +95,13 @@ applied.
 
    $ spack config blame concretizer
 
-Notice that the reference file on for this option is now different.
-This indicates the scope where the configuration was set in, and we will
+Notice that the reference file for this option is now different.
+This indicates the scope where the configuration was set, and we will
 discuss how spack chooses the default scope shortly.
 For now, it is important to note that the ``spack config`` command accepts an
 optional ``--scope`` flag so we can be more precise in the configuration process. 
-This will make more sense after the next section which provides 
-the definition of spack's configuration scopes and their hierarchy.
+This will make more sense after the next section, which provides 
+the definition of Spack's configuration scopes and their hierarchy.
 
 .. _configs-tutorial-scopes:
 
@@ -184,7 +184,7 @@ schema. The configuration is organized into sections based on theme
 (e.g., a 'compilers' section) and the highest-level keys of the dictionary
 specify the section. Spack generally maintains a separate file for
 each section, although environments keep them together (in
-``spack.yaml``).
+`spack.yaml`).
 
 When Spack checks its configuration,
 the configuration scopes are updated as dictionaries in increasing
@@ -255,7 +255,7 @@ Compiler Configuration
 ----------------------
 
 For most tasks, we can use Spack with the compilers auto-detected the
-first time Spack runs on a system. As discussed in the basic
+first time it runs on a system. As discussed in the basic
 installation tutorial, we can also tell Spack where compilers are
 located using the ``spack compiler add`` command. However, in some
 circumstances we want even more fine-grained control over the
@@ -351,7 +351,7 @@ number, separated by the ``@`` sigil. The name must be one of the supported
 compiler names in Spack (aocc, apple-clang, arm, cce, clang, dpcpp, fj,
 gcc, intel, msvc, nag, nvhpc, oneapi, pgi, rocmcc, xl, xl_r).
 The version number can be an arbitrary string of alphanumeric characters,
-as well as ``-``, ``.``, and ``_``. The ``target`` and ``operating_system``
+as well as ``-``, ``.``, and ``_``. The `target` and `operating_system`
 sections we leave unchanged. These sections specify when Spack can use
 different compilers, and are primarily useful for configuration files that
 will be used across multiple systems.
@@ -385,8 +385,8 @@ a particular computing environment. Spack provides configuration
 options for setting compiler flags every time a specific compiler is
 invoked. These flags become part of the package spec and therefore of
 the build provenance. As on the command line, the flags are set
-through the implicit build variables ``cflags``, ``cxxflags``, ``cppflags``,
-``fflags``, ``ldflags``, and ``ldlibs``.
+through the implicit build variables `cflags`, `cxxflags`, `cppflags`,
+`fflags`, `ldflags`, and `ldlibs`.
 
 Let's open our compilers configuration file again and add a compiler flag:
 
@@ -425,7 +425,7 @@ Advanced compiler configuration
 There are four fields of the compiler configuration entry that we
 have not yet talked about.
 
-The ``target`` field of the compiler defines the cpu architecture **family**
+The ``target`` field of the compiler defines the CPU architecture **family**
 that the compiler supports.
 
 .. code-block:: yaml
@@ -744,7 +744,7 @@ Notice that we still haven't build ``hdf5`` with our external
              required because hdf5%clang+mpi requested from CLI
 
 In this case, we cannot use the external mpich. The version is
-incompatible with ``hdf5``. At this point, the best option is to give
+incompatible with `hdf5`. At this point, the best option is to give
 up and let Spack build ``mpi`` for us. The alternative is to try to
 find a version of ``hdf5`` which doesn't have this conflict.
 

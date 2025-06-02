@@ -69,7 +69,7 @@ Next, we will add this token to the mirror config section of the Spack environme
 .. note ::
 
    We talk about mirrors and build caches almost interchangeably, because every build
-   cache is a binary mirror. Source mirrors exist too, which we will not cover in this
+   cache is a binary mirror. Source mirrors also exist, which we will not cover in this
    tutorial.
 
 
@@ -121,7 +121,7 @@ looks very similar to a container image --- we will get to that in a bit.
 .. note ::
 
    Binaries pushed to GitHub packages are ``private`` by default, which means you need a token
-   to download them. You can change the visibility to ``public`` by going to GitHub Packages
+   to download them. You can change the visibility to `public` by going to GitHub Packages
    from your GitHub account, selecting the ``buildcache`` package, go to ``package settings``,
    and change the visibility to ``public`` in the ``Danger Zone`` section. This page can also
    be directly accessed by going to
@@ -249,7 +249,7 @@ This time it works! The minimal ``ubuntu:24.04`` image provides us not only with
 also other utilities like a shell.
 
 Notice that you can use any base image of choice, like ``fedora`` or ``rockylinux``. The only
-constraint is that it has a ``libc`` compatible with the external in the Spack built the binaries.
+constraint is that it has a ``libc`` compatible with the external in the Spack-built binaries.
 Spack does not validate this.
 
 --------------------------------------
@@ -324,7 +324,7 @@ has a few downsides:
 * When ``RUN spack -e /root/env install`` fails, ``docker`` will not cache the layer, meaning
   that all dependencies that did install successfully are lost. Troubleshooting the build
   typically means starting from scratch in ``docker run`` or on the host system.
-* In certain CI environments, it is not possible to use ``docker build``. For example, the
+* In certain CI environments, it is not possible to use `docker build`. For example, the
   CI script itself may already run in a docker container, and running ``docker build`` *safely*
   inside a container is tricky.
 
@@ -354,7 +354,7 @@ only modify strings in-place, and if the new path is longer than the old one, we
 overwrite the next string in the table.
 
 To maximize the chances of successful relocation, you should build your binaries in a
-relative long path. Fortunately Spack can automatically pad paths to make them longer,
+relatively long path. Fortunately Spack can automatically pad paths to make them longer,
 using the following command:
 
 .. code-block:: console

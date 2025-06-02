@@ -96,7 +96,7 @@ build system.
 
 
 Each of these phases have sensible defaults. Let's take a quick look at some
-the internals of the :code:`Autotools` class:
+of the internals of the :code:`Autotools` class:
 
 .. code-block:: console
 
@@ -137,8 +137,8 @@ a command-line argument.
 Another thing to take note of is in the :code:`configure()` method.
 Here we see that the :code:`prefix` argument is already included since it is a
 common pattern amongst packages using :code:`Autotools`. We then only have to
-override :code:`configure_args()`, which will then return it's output to
-to :code:`configure()`. Then, :code:`configure()` will append the common
+override :code:`configure_args()`, which will then return its output to
+:code:`configure()`. Then, :code:`configure()` will append the common
 arguments
 
 Packagers also have the option to run :code:`autoreconf` in case a package
@@ -272,7 +272,7 @@ compiler:
     $ spack stage bowtie
 
 .. note::
-    As usual make sure you have shell support activated with spack:
+    As usual make sure you have shell support activated with Spack:
         :code:`source /path/to/spack_root/spack/share/spack/setup-env.sh`
 
 .. code-block:: console
@@ -311,9 +311,9 @@ Let's change the build and install phases of our package:
    :emphasize-lines: 28,29,30,31,32,35,36
    :linenos:
 
-Here demonstrate another strategy that we can use to manipulate our package
+This demonstrates another strategy that we can use to manipulate our package
 We can provide command-line arguments to :code:`make()`. Since :code:`Bowtie`
-can use :code:`tbb` we can either add :code:`NO_TBB=1` as a argument to prevent
+can use :code:`tbb` we can either add :code:`NO_TBB=1` as an argument to prevent
 :code:`tbb` support or we can just invoke :code:`make` with no arguments.
 
 :code:`Bowtie` requires our :code:`install_target` to provide a path to
@@ -461,7 +461,7 @@ end of the :code:`edit()` method we write the contents of our dictionary to
 CMake
 ---------------
 
-CMake_ is another common build system that has been gaining popularity. It works
+`CMake`_ is another common build system that has been gaining popularity. It works
 in a similar manner to :code:`Autotools` but with differences in variable names,
 the number of configuration options available, and the handling of shared libraries.
 Typical build incantations look like this:
@@ -502,7 +502,7 @@ Let's look at these defaults in the :code:`CMakePackage` class in the :code:`_st
    :linenos:
 
 Some :code:`CMake` packages use different generators. Spack is able to support
-Unix-Makefile_ generators as well as Ninja_ generators.
+`Unix-Makefile`_ generators as well as `Ninja`_ generators.
 
 .. _Unix-Makefile: https://cmake.org/cmake/help/v3.4/generator/Unix%20Makefiles.html
 .. _Ninja: https://cmake.org/cmake/help/v3.4/generator/Ninja.html
@@ -580,7 +580,7 @@ Again we fill in the details:
    :linenos:
    :emphasize-lines: 9,13,14,18,19,20,21,22,23
 
-As mentioned earlier, Spack will use sensible defaults to prevent repeated code
+As mentioned earlier, Spack uses sensible defaults to prevent repeated code
 and to make writing :code:`CMake` package files simpler.
 
 In callpath, we want to add options to :code:`CALLPATH_WALKER` as well as add
@@ -592,7 +592,7 @@ compiler flags. We add the following options like so:
    :emphasize-lines: 26,30,31
 
 Now we can control our build options using :code:`cmake_args()`. If defaults are
-sufficient enough for the package, we can leave this method out.
+sufficient for the package, we can leave this method out.
 
 :code:`CMakePackage` classes allow for control of other features in the
 build system. For example, you can specify the path to the "out of source"
