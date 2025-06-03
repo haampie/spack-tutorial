@@ -11,11 +11,11 @@
 Binary Caches Tutorial
 ==================================
 
-In this section of the tutorial you will learn how to share Spack built binaries
+In this section of the tutorial you will learn how to share Spack-built binaries
 across machines and users using build caches.
 
 We will explore a few concepts that apply to all types of build caches, but the
-focus is primarily on **OCI container registries** like Docker Hub or Github Packages
+focus is primarily on **OCI container registries** like Docker Hub or GitHub Packages
 as a storage backend for binary caches. Spack supports a range of storage backends,
 like an ordinary filesystem, S3, and Google Cloud Storage, but OCI build caches
 have a few interesting properties that make them worth exploring more in depth.
@@ -120,7 +120,7 @@ looks very similar to a container image --- we will get to that in a bit.
 
 .. note ::
 
-   Binaries pushed to GitHub packages are ``private`` by default, which means you need a token
+   Binaries pushed to GitHub Packages are ``private`` by default, which means you need a token
    to download them. You can change the visibility to ``public`` by going to GitHub Packages
    from your GitHub account, selecting the ``buildcache`` package, go to ``package settings``,
    and change the visibility to ``public`` in the ``Danger Zone`` section. This page can also
@@ -138,7 +138,7 @@ Installing from the build cache
 We will now verify that the build cache works by reinstalling ``julia``.
 
 Let's make sure that we *only* use the build cache that we just created, and not the
-builtin one that is configured for the tutorial. The easiest way to do this is to
+built-in one that is configured for the tutorial. The easiest way to do this is to
 override the ``mirrors`` config section in the environment by using a double colon
 in the ``spack.yaml`` file:
 
@@ -167,7 +167,7 @@ An "overwrite install" should be enough to show that the build cache is used:
 
 Two blobs are fetched for each spec: a metadata file and the actual binary package. If you've
 used ``docker pull`` or other container runtimes before, these types of hashes may look
-familiar. OCI registries are content addressed, which means that we see hashes like these
+familiar. OCI registries are content-addressed, which means that we see hashes like these
 instead of human-readable file names.
 
 ------------------------------------
@@ -223,7 +223,7 @@ pushed earlier:
    $ docker run ghcr.io/<user>/buildcache-<user>-<host>:julia-1.9.3-dfzhutfh3s2ekaltdmujjn575eip5uhl.spack julia
    exec /home/spack/spack/opt/spack/linux-ubuntu22.04-x86_64_v3/gcc-11.4.0/julia-1.9.3-dfzhutfh3s2ekaltdmujjn575eip5uhl/bin/julia: no such file or directory
 
-but immediately we see it fails. The reason is that one crucial part is missing, and that is a
+but immediately we see it fails. The reason is that one crucial part is missing, and that is
 ``glibc``, which Spack always treats as an external package.
 
 To fix this, we force push to the registry again, but this time we specify a base image with a
@@ -249,7 +249,7 @@ This time it works! The minimal ``ubuntu:24.04`` image provides us not only with
 also other utilities like a shell.
 
 Notice that you can use any base image of choice, like ``fedora`` or ``rockylinux``. The only
-constraint is that it has a ``libc`` compatible with the external in the Spack built the binaries.
+constraint is that it has a ``libc`` compatible with the external ``glibc`` Spack used to build the binaries.
 Spack does not validate this.
 
 --------------------------------------
@@ -304,7 +304,7 @@ In older versions of Spack it was common practice to generate a ``Dockerfile`` f
 Spack environment using the ``spack containerize`` command, and then use ``docker build``
 or other runtimes to create a container image.
 
-This would trigger a multi-stage build, where the first stage would install Spack itself,
+This would trigger a multi-stage build where the first stage would install Spack itself,
 compilers and the environment, and the second stage would copy the installed environment
 into a smaller image. For those familiar with ``Dockerfile`` syntax, it would structurally look
 like this:
@@ -325,7 +325,7 @@ has a few downsides:
   that all dependencies that did install successfully are lost. Troubleshooting the build
   typically means starting from scratch in ``docker run`` or on the host system.
 * In certain CI environments, it is not possible to use ``docker build``. For example, the
-  CI script itself may already run in a docker container, and running ``docker build`` *safely*
+  CI script itself may already run in a Docker container, and running ``docker build`` *safely*
   inside a container is tricky.
 
 The takeaway is that Spack decouples the steps that ``docker build`` combines:
@@ -340,7 +340,7 @@ Relocation
 Spack is different from many package managers in that it lets users choose where to install
 packages. This makes Spack very flexible, as users can install packages in their home directory
 and do not need root privileges. The downside is that sharing binaries is more complicated,
-as binaries may contain hard-coded, absolute paths to machine specific locations, which have
+as binaries may contain hard-coded, absolute paths to machine-specific locations, which have
 to be adjusted when binaries are installed on a different machine.
 
 Fortunately Spack handles this automatically upon install from a binary cache. But when you
@@ -348,13 +348,13 @@ build binaries that are intended to be shared, there is one thing you have to ke
 Spack can relocate hard-coded paths in binaries *provided that the target prefix is shorter
 than the prefix used during the build*.
 
-The reason is that binaries typically embed these absolute paths in string tables, which is
-a list of null terminated strings, to which the program stores offsets. That means we can
+The reason is that binaries typically embed these absolute paths in string tables, which are
+lists of null-terminated strings, to which the program stores offsets. That means we can
 only modify strings in-place, and if the new path is longer than the old one, we would
 overwrite the next string in the table.
 
 To maximize the chances of successful relocation, you should build your binaries in a
-relative long path. Fortunately Spack can automatically pad paths to make them longer,
+relatively long path. Fortunately Spack can automatically pad paths to make them longer,
 using the following command:
 
 .. code-block:: console
@@ -365,11 +365,11 @@ using the following command:
 Using build caches in CI
 ------------------------
 
-Build caches are a great way to speed up CI pipelines. Both GitHub Actions and Gitlab CI
+Build caches are a great way to speed up CI pipelines. Both GitHub Actions and GitLab CI
 support container registries, and this tutorial should give you a good starting point to
 leverage them.
 
-Spack also provides a basic GitHub Action to already provide you with a binary cache:
+Spack also provides a basic GitHub Action that already provides you with a binary cache:
 
 .. code-block:: yaml
 

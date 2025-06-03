@@ -68,7 +68,7 @@ Installing Packages
 -------------------
 
 Installing a package with Spack is very simple. To install a piece of
-software simply type,
+software simply type:
 
 .. code-block:: console
 
@@ -92,7 +92,7 @@ cache. Packages in the binary cache are signed with GPG for
 security. For the tutorial we have prepared a binary cache so you
 don't have to wait on slow compilation from source. To be able to
 install from the binary cache, we will need to configure Spack with
-the location of the binary cache and trust the GPG key that the binary
+the location of the binary cache and trust the GPG key that the binary-cached
 cache was signed with.
 
 .. literalinclude:: outputs/basics/mirror.out
@@ -158,7 +158,7 @@ installation directories for every combinatorial version. As we move into
 more complicated packages with software dependencies, we can see that
 Spack reuses existing packages to satisfy a dependency. By default, Spack
 tries hard to reuse existing installations as dependencies, either from a local
-store or from configured remote buildcaches. This minimizes unwanted rebuilds
+store or from configured remote build caches. This minimizes unwanted rebuilds
 of common dependencies, in particular if you update Spack frequently.
 
 .. literalinclude:: outputs/basics/tcl.out
@@ -173,7 +173,7 @@ top-level package, we can also specify about a dependency using ``^``.
 
 Packages can also be referred to from the command line by their package
 hash. Using the ``spack find -lf`` command earlier we saw that the hash
-of our optimized installation of zlib-ng (``cflags="-O3"``) began with
+of our optimized installation of ``zlib-ng`` (``cflags="-O3"``) began with
 ``umrbkwv``. We can now explicitly build with that package without typing
 the entire spec, by using the ``/`` sigil to refer to it by hash. As with
 other tools like Git, you do not need to specify an *entire* hash on the
@@ -193,7 +193,7 @@ even if it also appears as a dependency.
 
 Let's move on to slightly more complicated packages. HDF5 is a
 good example of a more complicated package, with an MPI dependency. If
-we install it "out of the box," it will build with OpenMPI.
+we install it "out-of-the-box," it will build with OpenMPI.
 
 .. literalinclude:: outputs/basics/hdf5.out
    :language: console
@@ -224,7 +224,7 @@ by any of several providers.
 .. literalinclude:: outputs/basics/hdf5-hl-mpi.out
    :language: console
 
-We'll do a quick check in on what we have installed so far.
+We'll do a quick check on what we have installed so far.
 
 .. literalinclude:: outputs/basics/find-ldf-2.out
    :language: console
@@ -237,8 +237,8 @@ DAG as a graph.
 .. literalinclude:: outputs/basics/graph-hdf5.out
    :language: console
 
-HDF5 is more complicated than our basic example of zlib-ng and
-Tcl, but it's still within the realm of software that an experienced
+HDF5 is more complicated than our basic example of ``zlib-ng`` and
+``Tcl``, but it's still within the realm of software that an experienced
 HPC user could reasonably expect to manually install given a bit of time.
 Now let's look at an even more complicated package.
 
@@ -246,7 +246,7 @@ Now let's look at an even more complicated package.
    :language: console
 
 Now we're starting to see the power of Spack. Trilinos in its default
-configuration has 23 top level dependencies, many of which have
+configuration has 23 top-level dependencies, many of which have
 dependencies of their own. Installing more complex packages can take
 days or weeks even for an experienced user. Although we've done a
 binary installation for the tutorial, a source installation of
@@ -292,7 +292,7 @@ complicated packages. The output can be changed to the Graphviz
 Uninstalling Packages
 ---------------------
 
-Earlier we installed many configurations each of zlib-ng and Tcl. Now we
+Earlier we installed many configurations each of ``zlib-ng`` and ``Tcl``. Now we
 will go through and uninstall some of those packages that we didn't
 really need.
 
@@ -302,7 +302,7 @@ really need.
 .. literalinclude:: outputs/basics/find-zlib.out
    :language: console
 
-We can uninstall packages by spec using the same syntax as install.
+We can uninstall packages by spec using the same syntax as when installing.
 
 .. literalinclude:: outputs/basics/uninstall-zlib.out
    :language: console
@@ -352,8 +352,8 @@ return every package which was built with ``cflags="-O3"``.
    :language: console
 
 The ``find`` command can also show which packages were installed
-explicitly (rather than pulled in as a dependency) using the lowercase
-``-x`` flag. The uppercase ``-X`` flag shows implicit installs only.
+explicitly (rather than pulled in as a dependency) using the lower-case
+``-x`` flag. The upper-case ``-X`` flag shows implicit installs only.
 The ``find`` command can also show the path to which a Spack package
 was installed using the ``-p`` flag.
 
@@ -384,13 +384,13 @@ added to the configuration.
 
 We can add GCC to Spack as an available compiler using the ``spack
 compiler add`` command. This will allow future packages to build with
-``gcc@12.3.0``. To avoid having to copy and paste GCC's path, we can use
+``gcc@12.1.0``. To avoid having to copy and paste GCC's path, we can use
 ``spack location -i`` to get the installation prefix.
 
 .. literalinclude:: outputs/basics/compiler-add-location.out
    :language: console
 
-We can also remove compilers from our configuration using ``spack compiler remove <compiler_spec>``
+We can also remove compilers from our configuration using ``spack compiler remove <compiler_spec>``.
 
 .. literalinclude:: outputs/basics/compiler-remove.out
    :language: console

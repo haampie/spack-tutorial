@@ -26,18 +26,18 @@ A partial list of some key configuration sections is provided below.
    * - config
      - General settings (install location, number of build jobs, etc)
    * - concretizer
-     - Specializaiton of the concretizer behavior (reuse, unification, etc)
+     - Specialization of the concretizer behavior (reuse, unification, etc)
    * - compilers
      - Define the compilers that Spack can use (required and system specific)
    * - mirrors
-     - Locations where spack can look for stashed source or binary distributions 
+     - Locations where Spack can look for stashed source or binary distributions
    * - packages
      - Specific settings and rules for packages
    * - modules
      - Naming, location and additional configuration of Spack generated modules
 
 The full list of sections can be viewed with ``spack config list``.
-For further education we encourage you to explore the spack
+For further education, we encourage you to explore the spack
 `documentation on configuration files <https://spack.readthedocs.io/en/latest/configuration.html#configuration-files>`_.
 
 The principle goals of this section of the tutorial are:
@@ -46,14 +46,14 @@ The principle goals of this section of the tutorial are:
 2. Demonstrate how to manipulate configurations
 3. Show how to configure system assets with spack (compilers and packages)
 
-As such we will primarily focus on the ``compilers``
+As such, we will primarily focus on the ``compilers``
 and ``packages`` configuration sections in this portion of the tutorial. 
 
 We will explain this by first covering how to manipulate configurations from
 the command line and then show how this impacts the configuration file
 hierarchy. We will then move into compiler and package configurations to help
 you develop skills for getting the builds you want on your system.  Finally,
-we will give some brief attention to more generalized spack configurations 
+we will give some brief attention to more generalized Spack configurations
 in the ``config`` section.
 
 For all of these features, we will demonstrate how we build up a full
@@ -68,7 +68,7 @@ Configuration from the command line
 -----------------------------------
 
 You can run ``spack config blame [section]`` at any point in time to see what
-your current configuration is. If you omit the section then spack will dump all
+your current configuration is. If you omit the section, then Spack will dump all
 the configurations settings to your screen.  Let's go ahead and run this for the 
 ``concretizer`` section.
 
@@ -88,7 +88,7 @@ through the command line.
 
   $ spack config add concretizer:reuse:false
 
-If we rerun ``spack config blame concretizer`` we can see that the change was 
+If we rerun ``spack config blame concretizer``, we can see that the change was
 applied.  
 
 .. code-block:: console
@@ -96,12 +96,12 @@ applied.
    $ spack config blame concretizer
 
 Notice that the reference file on for this option is now different.
-This indicates the scope where the configuration was set in, and we will
-discuss how spack chooses the default scope shortly.
+This indicates the scope where the configuration was set, and we will
+discuss how Spack chooses the default scope shortly.
 For now, it is important to note that the ``spack config`` command accepts an
 optional ``--scope`` flag so we can be more precise in the configuration process. 
-This will make more sense after the next section which provides 
-the definition of spack's configuration scopes and their hierarchy.
+This will make more sense after the next section, which provides
+the definition of Spack's configuration scopes and their hierarchy.
 
 .. _configs-tutorial-scopes:
 
@@ -317,7 +317,7 @@ active environment):
        extra_rpaths: []
 
 This specifies two versions of the GCC compiler and one version of the
-Clang compiler with no Flang compiler. Now suppose we have a code that
+Clang compiler with no ``flang`` compiler. Now suppose we have a code that
 we want to compile with the Clang compiler for C/C++ code, but with
 gfortran for Fortran components. We can do this by adding another entry
 to the ``compilers.yaml`` file:
@@ -425,7 +425,7 @@ Advanced compiler configuration
 There are four fields of the compiler configuration entry that we
 have not yet talked about.
 
-The ``target`` field of the compiler defines the cpu architecture **family**
+The ``target`` field of the compiler defines the CPU architecture **family**
 that the compiler supports.
 
 .. code-block:: yaml
@@ -471,14 +471,14 @@ In addition to ``set``, ``environment`` also supports ``unset``,
 ``prepend_path``, and ``append_path``.
 
 The ``extra_rpaths`` field of the compiler configuration is used for
-compilers that do not rpath all of their dependencies by
+compilers that do not RPATH all of their dependencies by
 default. Since compilers are often installed externally to Spack,
 Spack is unable to manage compiler dependencies and enforce
-rpath usage. This can lead to packages not finding link dependencies
-imposed by the compiler properly. For compilers that impose link
-dependencies on the resulting executables that are not rpath'ed into
+RPATH usage. This can lead to packages not properly finding link dependencies
+imposed by the compiler. For compilers that impose link
+dependencies on the resulting executables that are not RPATHed into
 the executable automatically, the ``extra_rpaths`` field of the compiler
-configuration tells Spack which dependencies to rpath into every
+configuration tells Spack which dependencies to RPATH into every
 executable created by that compiler. The executables will then be able
 to find the link dependencies imposed by the compiler. As an example,
 this field can be set by:
@@ -515,7 +515,7 @@ file.
 This sets the default preferences for compilers and for providers of
 virtual packages. To illustrate how this works, suppose we want to
 change the preferences to prefer the Clang compiler and to prefer
-MPICH over OpenMPI. Currently, we prefer GCC and OpenMPI.
+MPICH over OpenMPI. Currently, Spack prefers GCC and OpenMPI.
 
 .. literalinclude:: outputs/config/0.prefs.out
    :language: console
@@ -589,7 +589,7 @@ HDF5.
          require: ~mpi
 
 
-Now hdf5 will concretize without an MPI dependency by default.
+Now HDF5 will concretize without an MPI dependency by default.
 
 .. literalinclude:: outputs/config/3.prefs.out
    :language: console
@@ -604,13 +604,13 @@ External packages
 ^^^^^^^^^^^^^^^^^
 
 The packages configuration file also controls when Spack will build
-against an externally installed package. Spack has a
+against an externally installed package. Spack has the
 ``spack external find`` command that can automatically discover and
 register externally installed packages. This works for many common
 build dependencies, but it's also important to know how to do this
 manually for packages that Spack cannot yet detect.
 
-On these systems we have a pre-installed curl. Let's tell Spack about
+On these systems, we have a pre-installed curl. Let's tell Spack about
 this package and where it can be found:
 
 .. code-block:: yaml
@@ -633,7 +633,7 @@ this package and where it can be found:
 
 
 Here, we've told Spack that Curl 7.81.0 is installed on our system.
-We've also told it the installation prefix where Curl can be found.
+We've also told Spack the installation prefix where Curl can be found.
 We don't know exactly which variants it was built with, but that's
 okay.
 
@@ -682,7 +682,7 @@ Now Spack will be forced to choose the external Curl.
 
 This gets slightly more complicated with virtual dependencies. Suppose
 we don't want to build our own MPI, but we now want a parallel version
-of HDF5. Well, fortunately we have MPICH installed on these systems.
+of HDF5. Well, fortunately, we have MPICH installed on these systems.
 
 Instead of manually configuring an external for MPICH like we did for
 Curl we will use the ``spack external find`` command. For packages
@@ -729,7 +729,7 @@ for MPI, we can try again.
 
 Notice that we still haven't build ``hdf5`` with our external
 ``mpich``. The concretizer has instead turned off ``mpi`` support in
-``hdf5``. To debug this, we will force Spack to use ``hdf5+mpi``.
+HDF5. To debug this, we will force Spack to use ``hdf5+mpi``.
 
 .. code-block:: console
 
@@ -818,8 +818,8 @@ As you can see, many of the directories Spack uses can be customized.
 For example, you can tell Spack to install packages to a prefix
 outside of the ``$SPACK_ROOT`` hierarchy. Module files can be
 written to a central location if you are using multiple Spack
-instances. If you have a fast scratch file system, you can run builds
-from this file system with the following ``config.yaml``:
+instances. If you have a fast scratch filesystem, you can run builds
+from this filesystem with the following ``config.yaml``:
 
 .. code-block:: yaml
 
@@ -833,7 +833,7 @@ from this file system with the following ``config.yaml``:
    It is important to distinguish the build stage directory from other
    directories in your scratch space to ensure ``spack clean`` does not
    inadvertently remove unrelated files.  This can be accomplished by
-   including a combination of ``spack`` and or ``stage`` in each path
+   including a combination of ``spack`` and/or ``stage`` in each path
    as shown in the default settings and documented examples.  See
    `Basic Settings <https://spack.readthedocs.io/en/latest/config_yaml.html#config-yaml>`_ for details.
 
@@ -907,7 +907,7 @@ If we uninstall and reinstall zlib-ng, we see that it now uses only 2 cores:
 Obviously, if you want to build everything in serial for whatever reason,
 you would set ``build_jobs`` to 1.
 
-Last we'll unset ``concretizer:reuse:false`` since we'll want to
+Lastly, we'll unset ``concretizer:reuse:false`` since we'll want to
 enable concretizer reuse for the rest of this tutorial.
 
 .. code-block:: yaml

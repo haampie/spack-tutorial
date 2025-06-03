@@ -13,7 +13,7 @@ Advanced Topics in Packaging
 
 Spack tries to automatically configure packages with information from
 dependencies such that all you need to do is to list the dependencies
-(i.e., with the ``depends_on`` directive) and the build system (for example
+(i.e., with the ``depends_on`` directive) and the build system (for example,
 by deriving from :code:`CmakePackage`).
 
 However, there are many special cases. Often you need to retrieve details
@@ -49,7 +49,7 @@ configuration, you can do so with:
   $ spack install gcc@7.2.0 %gcc@5.4.0
   $ spack compiler add --scope=site `spack location -i gcc@7.2.0 %gcc@5.4.0`
 
-If you are using the tutorial docker image, all dependency packages
+If you are using the tutorial Docker image, all dependency packages
 will have been installed. Otherwise, to install these packages you can use
 the following commands:
 
@@ -95,7 +95,7 @@ that spack does is not sufficient for python to import modules.
 To provide environment setup for a dependent, a package can implement the
 :py:func:`setup_dependent_build_environment
 <spack.package.PackageBase.setup_dependent_build_environment>`
-and or :py:func:`setup_dependent_run_environment
+or :py:func:`setup_dependent_run_environment
 <spack.package.PackageBase.setup_dependent_run_environment>` functions.
 These functions take as a parameter a :py:class:`EnvironmentModifications
 <spack.util.environment.EnvironmentModifications>` object, which includes
@@ -166,8 +166,8 @@ Set environment variables in your own package
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Packages can modify their own build-time environment by implementing the
-:py:func:`setup_build_environment 
-<spack.package.PackageBase.setup_build_environment` function and run-time
+:py:func:`setup_build_environment <spack.package.PackageBase.setup_build_environment>`
+function and run-time
 environment by implementing the
 :py:func:`setup_run_environment
 <spack.package.PackageBase.setup_run_environment` function.
@@ -302,7 +302,7 @@ If you followed the instructions in the package, when you are finished your
         ]
 
 As you can see, getting the list of libraries that your dependencies provide
-is as easy as accessing the their ``libs`` attribute. Furthermore, the interface
+is as easy as accessing their ``libs`` attribute. Furthermore, the interface
 remains the same whether you are querying regular or virtual dependencies.
 
 At this point you can complete the installation of ``armadillo`` using ``openblas``
@@ -328,7 +328,7 @@ as a LAPACK provider (``armadillo ^openblas ^mpich``):
   [+] /usr/local/opt/spack/linux-ubuntu16.04-x86_64/gcc-5.4.0/armadillo-8.100.1-n2eojtazxbku6g4l5izucwwgnpwz77r4
 
 Hopefully the installation went fine and the code we added expanded to the right list
-of semicolon separated libraries (you are encouraged to open ``armadillo``'s
+of semicolon-separated libraries (you are encouraged to open ``armadillo``'s
 build logs to double check).
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -353,7 +353,7 @@ follow this naming scheme must implement this function themselves, e.g.
             "libopencv_*", root=self.prefix, shared=shared, recursive=True
         )
 
-This issue is common for packages which implement an interface (i.e.
+This issue is common for packages which implement an interface (i.e.,
 virtual package providers in Spack). If we try to build another version of
 ``armadillo`` tied to ``netlib-lapack`` (``armadillo ^netlib-lapack ^mpich``)
 we'll notice that this time the installation won't complete:
@@ -429,7 +429,7 @@ install ``armadillo ^netlib-lapack ^mpich``:
 
 Since each implementation of a virtual package is responsible for locating the
 libraries associated with the interfaces it provides, dependents do not need
-to include special-case logic for different implementations and for example
+to include special-case logic for different implementations and, for example,
 need only ask for :code:`spec['blas'].libs`.
 
 ----------------------
@@ -458,7 +458,7 @@ An example here is the ``automake`` package, which overrides
       for name in executables:
           setattr(module, name, self._make_executable(name))
 
-so that every other package that depends on it can use directly ``aclocal``
+so that every other package that depends on it can use ``aclocal`` directly
 and ``automake`` with the usual function call syntax of :py:class:`Executable <spack.util.executable.Executable>`:
 
 .. code-block:: python

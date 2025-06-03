@@ -13,7 +13,7 @@ Module Files Tutorial
 
 This tutorial illustrates how Spack can be used to generate module files
 for the software that has been installed. Both hierarchical and non-hierarchical
-deployments will be discussed in details and we will show how to customize
+deployments will be discussed in detail and we will show how to customize
 the content and naming of each module file.
 
 At the end of the tutorial readers should have a clear understanding of:
@@ -42,7 +42,7 @@ earlier in the tutorial:
 
   $ spack uninstall -ay
 
-and by enabling ``tcl`` module files, which are disabled by default since Spack v0.20:
+and by enabling Tcl module files, which are disabled by default since Spack v0.20:
 
 .. code-block:: console
 
@@ -53,8 +53,8 @@ and by enabling ``tcl`` module files, which are disabled by default since Spack 
 Build a module tool
 ^^^^^^^^^^^^^^^^^^^
 
-The first thing that we need is the module tool itself. In the tutorial we will use
-``lmod`` because it can work with both hierarchical and non-hierarchical layouts.
+The first thing that we need is the module tool itself. In this tutorial, we will use
+Lmod because it can work with both hierarchical and non-hierarchical layouts.
 
 .. code-block:: console
 
@@ -68,7 +68,7 @@ to remember, but they can be retrieved with the ``spack location`` command:
 
   $ . $(spack location -i lmod)/lmod/lmod/init/bash
 
-Now we can re-source the setup file and Spack modules will be put in
+Now we can re-source the setup file, and Spack modules will be put in
 our module path.
 
 .. code-block:: console
@@ -113,7 +113,7 @@ To check which compilers are available you can use ``spack compiler list``:
 .. literalinclude:: outputs/modules/list-compiler.out
    :language: console
 
-Finally, when you confirmed ``gcc@12.3.0`` is properly registered, clean the environment
+Finally, when you have confirmed ``gcc@12.3.0`` is properly registered, clean the environment
 with ``spack unload``:
 
 .. code-block:: console
@@ -192,8 +192,8 @@ we refer to its `documentation <https://modules.readthedocs.io/>`_.
 """"
 Lmod
 """"
-Lmod is a module system written in Lua, originally created  at the
-"Texas Advanced Computing Center" (TACC) by Robert McLay. You can get it with:
+Lmod is a module system written in Lua, originally created at the
+Texas Advanced Computing Center (TACC) by Robert McLay. You can get it with:
 
 .. code-block:: console
 
@@ -263,7 +263,7 @@ to read. We'll show you how to customize this in the following sections.
 Non-hierarchical Module Files
 -----------------------------
 
-If you arrived to this point you should have an environment that looks
+If you have arrived at this point you should have an environment that looks
 similar to:
 
 .. literalinclude:: outputs/modules/module-avail-2.out
@@ -284,9 +284,9 @@ by the module file according to the default prefix inspection rules.
 Filter unwanted modifications to the environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Now consider the case that your site has decided that ``CC``,
-``CXX``, ``FC`` and ``F77`` modifications should not be
-present in module files. What you can do to abide by the rules is to
+Now consider the case where your site has decided that ``CC``,
+``CXX``, ``FC``, and ``F77`` modifications should not be
+present in module files. What you can do to abide by these rules is to
 create a configuration file ``${SPACK_ROOT}/etc/spack/modules.yaml`` with
 the following content:
 
@@ -303,7 +303,7 @@ the following content:
             - "FC"
             - "F77"
 
-This can be done either editing the configuration manually, or directly from the command line:
+This can be done either by editing the configuration manually or directly from the command line:
 
 .. code-block:: console
 
@@ -360,10 +360,12 @@ directory.
    :language: console
 
 
-if you look closely you'll see though that we went too far in
-excluding modules: the module for ``gcc@12.3.0`` disappeared as it was
-bootstrapped with ``gcc@11``. To specify exceptions to the ``exclude``
-rules you can use ``include``:
+if you look closely, you'll see though that we went too far in
+excluding modules: the module for ``gcc@12.3.0`` disappeared, as it was
+bootstrapped with ``gcc@11``. This is because the
+``core_compilers`` setting in ``modules.yaml`` is used to filter the list of
+compilers that are considered "core" by Spack. Only modules built with core
+compilers are shown by default.
 
 .. code-block:: yaml
   :emphasize-lines: 4,5
@@ -424,7 +426,7 @@ Change module file naming
 
 The next step in making  module files more user-friendly is to
 improve their naming scheme.
-To reduce the length of the hash or remove it altogether you can
+To reduce the length of the hash or remove it altogether, you can
 use the ``hash_length`` keyword in the configuration file:
 
 .. code-block:: yaml
@@ -454,8 +456,8 @@ If you try to regenerate the module files now you will get an error:
 .. note::
    We try to check for errors up front!
 
-   In Spack we check for errors upfront whenever possible, so don't worry
-   about your module files: as a name clash was detected nothing has been
+   In Spack, we check for errors upfront whenever possible, so don't worry
+   about your module files: as a name clash was detected, nothing has been
    changed on disk.
 
 The problem here is that without the hashes the four different flavors of
@@ -548,7 +550,7 @@ is installed. You can achieve this with Spack by adding an
 
 
 Under the hood Spack uses the :meth:`~spack.spec.Spec.format` API to substitute
-tokens in either environment variable names or values. There are two caveats though:
+tokens in either environment variable names or values. There are two caveats, though:
 
 - The set of allowed tokens in variable names is restricted to
   ``name``, ``version``, ``compiler``, ``compiler.name``,
@@ -620,7 +622,7 @@ Autoload dependencies
 ^^^^^^^^^^^^^^^^^^^^^
 
 Spack can also generate module files that contain code to load the
-dependencies automatically. You can, for instance generate python
+dependencies automatically. You can, for instance, generate Python
 modules that load their dependencies by adding the ``autoload``
 directive and assigning it the value ``direct``:
 
@@ -678,7 +680,7 @@ sufficient to omit the line setting ``verbose: true`` in the configuration file 
 Hierarchical Module Files
 -------------------------
 
-So far we worked with non-hierarchical module files, i.e. with module files
+So far we worked with non-hierarchical module files, i.e., with module files
 that are all generated in the same root directory and don't attempt to
 dynamically modify the ``MODULEPATH``. This results in a flat module structure where
 all the software is visible at the same time:
@@ -694,14 +696,14 @@ that nothing prevents users from loading incompatible sets of modules:
 
 Even if ``conflicts`` directives are carefully placed in module files, they:
 
-  - won't enforce a consistent environment, but will just report an error
+  - won't enforce a consistent environment but will just report an error
   - need constant updates, for instance as soon as a new compiler or MPI library is installed
 
 `Hierarchical module files <http://lmod.readthedocs.io/en/latest/080_hierarchy.html>`_ try to
-overcome these shortcomings by showing at start-up only a restricted view of what is
-available on the system: more specifically only the software that has been installed with
-OS provided compilers. Among this software there will be other - usually more recent - compilers
-that, once loaded, will prepend new directories to ``MODULEPATH`` unlocking all the software
+overcome these shortcomings by showing at startup only a restricted view of what is
+available on the system: more specifically, only the software that has been installed with
+OS-provided compilers. Among this software, there will be other - usually more recent - compilers
+that, once loaded, will prepend new directories to ``MODULEPATH``, unlocking all the software
 that was compiled with them. This "unlocking" idea can then be extended arbitrarily to
 virtual dependencies, as we'll see in the following section.
 
@@ -717,7 +719,7 @@ There are just a few steps needed to adapt the ``modules.yaml`` file we used pre
   #. change the ``tcl`` tag to ``lmod``
   #. remove the ``tcl`` specific ``conflict`` directive
   #. declare which compilers are considered ``core_compilers``
-  #. remove the ``mpi`` related suffixes in projections (as they will be substituted by hierarchies)
+  #. remove the MPI-related suffixes in projections (as they will be substituted by hierarchies)
 
 After these modifications your configuration file should look like:
 
@@ -754,7 +756,8 @@ After these modifications your configuration file should look like:
               OMPI_MCA_btl_openib_warn_default_gid_prefix: '0'
         projections:
           all:          '{name}/{version}'
-          ^lapack:      '{name}/{version}-{^lapack.name}'
+          #remove the MPI-related suffixes in projections (as they will be substituted by hierarchies)
+          #^mpi: '{name}/{version}-{mpi.name}-{mpi.version}'
 
 
 .. note::
@@ -767,7 +770,7 @@ After these modifications your configuration file should look like:
 The directive ``core_compilers`` accepts a list of compilers. Everything built
 using these compilers will create a module in the ``Core`` part of the hierarchy,
 which is the entry point for hierarchical module files. It is
-common practice to put the OS provided compilers in the list and only build common utilities
+common practice to put the OS-provided compilers in the list and only build common utilities
 and other compilers with them.
 
 If we now regenerate the module files:
@@ -794,7 +797,7 @@ the ``Compiler`` part of the hierarchy:
 .. literalinclude:: outputs/modules/module-avail-7.out
    :language: console
 
-The same holds true also for the ``MPI`` part, that you can enable by loading
+The same also holds true for the ``MPI`` part, which you can enable by loading
 either ``mpich`` or ``openmpi``. Let's start by loading ``mpich``:
 
 .. literalinclude:: outputs/modules/module-avail-8.out
@@ -809,8 +812,8 @@ over a non-hierarchical one:
 .. literalinclude:: outputs/modules/module-swap-mpi.out
    :language: console
 
-``Lmod`` took care of swapping the MPI provider for us, and it also substituted the
-``netlib-scalapack`` module to conform to the change in the MPI.
+Lmod took care of swapping the MPI provider for us, and it also substituted the
+``netlib-scalapack`` module to conform to the change in MPI.
 In this way we can't accidentally pull-in two different MPI providers at the
 same time or load a module file for a package linked to ``openmpi`` when ``mpich`` is also loaded.
 Consistency for compilers and MPI is ensured by the tool.
@@ -821,19 +824,19 @@ Add LAPACK to the hierarchy
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The hierarchy just shown is already a great improvement over non-hierarchical layouts,
-but it still has an asymmetry: ``LAPACK`` providers cover the same semantic role
-as ``MPI`` providers, but yet they are not part of the hierarchy.
+but it still has an asymmetry: LAPACK providers cover the same semantic role
+as MPI providers, yet they are not part of the hierarchy.
 
 To be more practical, this means that although we have gained an improved consistency in
-our environment when it comes to ``MPI``, we still have the same problems as we had before
-for ``LAPACK`` implementations:
+our environment when it comes to MPI, we still have the same problems as we had before
+for LAPACK implementations:
 
 .. literalinclude:: outputs/modules/lapack-conflict.out
    :language: console
 
 Hierarchies that are deeper than ``Core``/``Compiler``/``MPI`` are
 probably still considered "unusual" or "impractical" at many sites, mainly because
-module files are written manually and keeping track of the combinations
+module files are written manually, and keeping track of the combinations
 among multiple providers quickly becomes quite involved.
 
 For instance, having both ``MPI`` and ``LAPACK`` in the hierarchy
@@ -900,13 +903,13 @@ we can see that now we have additional components in the hierarchy:
 .. literalinclude:: outputs/modules/lapack-hier.out
    :language: console
 
-Both ``MPI`` and ``LAPACK`` providers will now benefit from the same safety features:
+Both MPI and LAPACK providers will now benefit from the same safety features:
 
 .. literalinclude:: outputs/modules/lapack-correct.out
    :language: console
 
-Because we only compiled ``py-numpy`` with ``openblas`` the module
-is made inactive when we switch the ``LAPACK`` provider. The user
+Because we only compiled ``py-numpy`` with ``openblas``, the module
+is made inactive when we switch the LAPACK provider. The user
 environment is now consistent by design!
 
 ----------------------
@@ -959,11 +962,11 @@ and can be extended by users to employ custom templates, as we'll see next.
 Extend the default templates
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Let's assume one of our software is protected by group membership:
-allowed users belong to the same linux group, and access is granted at group level.
-Wouldn't it be nice if people that are not
+Let's assume one of our software packages is protected by group membership:
+allowed users belong to the same Linux group, and access is granted at the group level.
+Wouldn't it be nice if people who are not
 yet entitled to use it could receive a helpful message at module load time
-that tells them who to contact in your organization to be inserted in the group?
+that tells them whom to contact in your organization to be added to the group?
 
 To automate the generation of module files with such site-specific behavior
 we'll start by extending the list of locations where Spack looks for module
@@ -1071,8 +1074,8 @@ we'll find the following at the end of each ``netlib-scalapack`` module file:
       )
   end
 
-and every user that doesn't have access to the software will now be redirected to
-the right e-mail address where to ask for it!
+and every user who doesn't have access to the software will now be redirected to
+the correct email address to request access!
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Restore settings for future sections
@@ -1080,7 +1083,7 @@ Restore settings for future sections
 
 For future sections of the tutorial, we will not use the ``gcc@12.3.0``
 compiler. Since it is currently the default compiler (our current
-default is the most recent version of gcc available), we will remove
+default is the most recent version of GCC available), we will remove
 it now.
 
 .. code-block:: console
@@ -1088,3 +1091,5 @@ it now.
   $ spack compiler rm gcc@12.3.0
 
 This will ensure the rest of the tutorial goes smoothly for you.
+
+[end of tutorial_modules.rst]

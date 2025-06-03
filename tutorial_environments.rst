@@ -43,7 +43,7 @@ environments allow you to readily:
 This tutorial introduces the basics of creating and using environments,
 then explains how to expand, configure, and build software in them.
 We will start with the command line interface, then cover editing key
-environment file directly. We will describe the difference between
+environment files directly. We will describe the difference between
 Spack-managed and independent environments, then finish with a section
 on reproducible builds.
 
@@ -154,7 +154,7 @@ Try the usual install command first:
    :language: console
 
 Environments are special in that you must *add* specs to them before installing.
-``spack add`` allows us to do queue up several specs to be installed together.
+``spack add`` allows us to queue up several specs to be installed together.
 Let's try it:
 
 .. literalinclude:: outputs/environments/env-add-1.out
@@ -240,7 +240,7 @@ being added to ``PATH``, ``MANPATH``, ``CMAKE_PREFIX_PATH``,
 and other environment variables. This makes the environment easier to use.
 
 Let's try it out. We just installed ``tcl`` into our ``myproject``
-environment. ``Tcl`` includes a shell-like application called ``tclsh``.
+environment. Tcl includes a shell-like application called ``tclsh``.
 You can see the path to ``tclsh`` using ``which``:
 
 .. literalinclude:: outputs/environments/use-tcl-1.out
@@ -291,7 +291,7 @@ contents of the environment:
 
 
 We can see that ``trilinos`` won't be uninstalled because it is still referenced
-in another environment managed by spack. If we want to remove it from the roots
+in another environment managed by Spack. If we want to remove it from the roots
 list we need to use ``spack remove``:
 
 .. literalinclude:: outputs/environments/env-remove-1.out
@@ -361,7 +361,7 @@ environment. Other options for ``unify`` are ``false`` and ``when_possible``.
 ``false`` means that the specs are concretized *independently*, so that
 there may be multiple versions of the same package in the environment.
 ``when_possible`` lies between those options. In this case, Spack will unify
-as many packages in the environment, but will not fail if it cannot unify
+as many packages in the environment as possible, but will not fail if it cannot unify
 all of them.
 
 
@@ -608,7 +608,7 @@ can move to the directory containing the file using ``spack cd``:
 
 
 Notice that ``myproject`` is a subdirectory of ``var/spack/environments``
-within the Spack installation making it a *managed* environment.
+within the Spack installation, making it a *managed* environment.
 Consequently, it can be referenced by name. It will also show up
 when running ``spack env list``:
 
@@ -751,7 +751,7 @@ the full concretized state of the environment.
 
 This file is intended to be a machine-readable representation of the
 information needed to *reproduce* the build of an environment. As such,
-it is written in ``json``, which is less readable than ``yaml``.
+it is written in JSON, which is less readable than YAML.
 
 Let's look at the top 30 lines of our current environment:
 
